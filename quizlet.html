@@ -1,0 +1,62 @@
+<style>
+	.incorrectQuizAnswerText {
+		color: red;
+	}
+
+	.correctQuizAnswerText {
+		color: green;
+	}
+
+	.quizAnswerPercentage {
+		visibility: hidden;
+	}
+</style>
+
+
+<script>
+	function onQuizButtonClick(){
+		// TODO send answer ID off to server
+		// TODO time the users answer
+		
+		// mark all answers as incorrect
+		var answers = document.querySelectorAll(".quizAnswer");
+		for (var i = 0; i < answers.length; i++){
+			answers[i].className = "incorrectQuizAnswerText";
+		}
+
+		// mark only the correct answer
+		var correctAnswer = document.getElementById("correctQuizAnswer);
+		if (correctAnswer){
+			correctAnswer.className = "correctQuizAnswerText";
+		}
+
+		// show the percentages
+		var percentages = document.querySelectorAll(".quizAnswerPercentage");
+		for (var i = 0; i < percentages.length; i++){
+			percentages[i].style.visibility = "visible";
+		}
+	}
+</script>
+
+<cfscript>
+	quizTitle = "What is 1+1?"
+	quizAnswers = [
+		{ "text" : "1", "percentage" : "24", "correct" : False },
+		{ "text" : "2", "percentage" : "63", "correct" : True  },
+		{ "text" : "3", "percentage" : "13", "correct" : False }
+	]
+</cfscript>
+
+<div>
+	<h2><cfoutput>#quizTitle#<cfoutput></h2>
+	<cfloop array="#quizAnswers#" index="quizAnswer">
+		<a onclick="onQuizButtonClick()" class="quizAnswer"
+			<cfif #quizAnswer["correct"]#> id="correctQuizAnswer" </cfif>		
+		>
+			<cfoutput>#quizAnswer["text"]#</cfoutput>
+			<div class="quizAnswerPercentage">
+				<cfoutput>#quizAnswer["percentage"]#</cfoutput>%
+			</div>
+		</a>
+	</cfloop>
+</div>
